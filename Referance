@@ -1,0 +1,59 @@
+mountain@mountain:~/sbook$ cat words.txt
+
+line1 word1
+
+line2 word2 word1
+
+line3 word3 word4
+
+line4 word1
+
+scala> val lines = sc.textFile("words.txt");
+
+...
+
+scala> lines.map(_.split(" ")).take(3)
+
+res4: Array[Array[String]] = Array(Array(line1, word1), Array(line2, word2, word1), Array(line3, word3, word4))
+
+
+A flatMap() flattens multiple list into one single List
+
+scala> lines.flatMap(_.split(" ")).take(3)
+
+res5: Array[String] = Array(line1, word1, line2)
+
+****************************************************
+
+i.  scala> case class Employee(id: Int, name: String, age: Int)
+defined class Employee
+scala> val sqlContext= new org.apache.spark.sql.SQLContext(sc)
+warning: there was one deprecation warning; re-run with -deprecation for details
+sqlContext: org.apache.spark.sql.SQLContext = org.apache.spark.sql.SQLContext@1f94e3a
+
+scala> import sqlContext.implicits._
+import sqlContext.implicits._
+scala> var empl1=   empl.map(_.split(",")).map(e=>Employee(e(0).trim.toInt,e(1),e(2).trim.toInt)).toDF
+empl1: org.apache.spark.sql.DataFrame = [id: int, name: string ... 1 more field]
+scala> val allrecords = sqlContext.sql("SELECT * FROM employee")
+allrecords: org.apache.spark.sql.DataFrame = [id: int, name: string ... 1 more field]
+
+scala> allrecords.show();
++----+--------+---+
+|  id|    name|age|
++----+--------+---+
+|1201|  satish| 25|
+|1202| krishna| 28|
+|1203|   amith| 39|
+|1204|   javed| 23|
+|1205|  prudvi| 23|
++----+--------+---+
+
+
+**************************
+
+ if total memory (driver memory + num executors * executor memory) goes beyond available memory, 
+ it's going to throw error.
+ https://stackoverflow.com/questions/33655090/spark-executorlostfailure/35183416
+ 
+ **************************
